@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 
 def home(request):
-	return HttpResponse('home')
+	return render(request, 'fni_page/home.html')
 
 def inflation(request):
 	return render(request, 'fni_page/inflation.html')
