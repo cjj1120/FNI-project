@@ -6,7 +6,9 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .models import * 
 from .forms import * 
- 
+from pytrends.request import TrendReq
+from datetime import datetime, timedelta
+
 def home(request):
 	return render(request, 'fni_page/home.html')
 
@@ -17,6 +19,17 @@ def inflation(request):
 
 def about(request):
 	return render(request, 'fni_page/about.html')
+
+def insert_trend_data(request):
+    pytrend = TrendReq()
+    today_date = str(datetime.datetime.now().date())
+    ystd = str((datetime.today() - timedelta(days=1)).date())
+    pytrend.build_payload(kw_list=['Inflation'],timeframe=f'{ystd} {today_date}')
+    related_queries = pytrend.related_queries()['Inflation']['top'].head()
+    for i,row in related_queries.iterrows():
+        data_ = Trend(query_res=row['query'], value=row['value'])
+        data_.save()
+    return HttpResponseRedirect('/inflation')
 
 
 # Login views: 

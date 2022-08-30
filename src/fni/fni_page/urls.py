@@ -11,4 +11,5 @@ urlpatterns = [
     path('about', views.about, name = "about"), 
     url(r'^register/$',views.register,name='register'),
     url(r'^user_login/$',views.user_login,name='user_login'),
+    path('insert_trend_data', views.insert_trend_data, name='insert_trend_data'),
 ]
