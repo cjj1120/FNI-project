@@ -22,8 +22,8 @@ def about(request):
 
 def insert_trend_data(request):
     pytrend = TrendReq()
-    today_date = str(datetime.datetime.now().date())
-    ystd = str((datetime.today() - timedelta(days=1)).date())
+    today_date = str(datetime.now().date())
+    ystd = str((datetime.today() - timedelta(days=30)).date())
     pytrend.build_payload(kw_list=['Inflation'],timeframe=f'{ystd} {today_date}')
     related_queries = pytrend.related_queries()['Inflation']['top'].head()
     for i,row in related_queries.iterrows():
